@@ -18,6 +18,6 @@
         "react/stream": "0.4.*"
     },
     "autoload": {
-        "psr-4": { "Atom\\": "src" }
+        "psr-4": { "Atom\\": "src/Atom" }
     }
 }
