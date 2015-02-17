@@ -11,11 +11,18 @@ class Frame {
 	private $variableHeader;
 	private $body;
 	
-	function __construct(Command $command = null, $body = null, $options = array()) {
+	function __construct(\Atom\Protocol\Command\CommandInterface $command, $options = array()) {
 		$this->command = $command;
-		$this->body = $body;
-		$this->validate();
+		// $this->validate();
 	}
+
+    public function setFlags(\Atom\Protocol\Flag\FlagCollectionInterface $flags) {
+
+    }
+
+    public function setBody(\Atom\Protocol\Flag\FlagCollectionInterface $flags) {
+        
+    }
 
 	public function __set($name, $value) {
 		

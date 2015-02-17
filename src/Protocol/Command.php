@@ -29,7 +29,6 @@ class Command {
 		return sprintf("%s", $this->flag);
 	}
 
-
 	function __toString() {
 		return sprintf("%'04b%s", $this->command, $this->flag);
 	}
