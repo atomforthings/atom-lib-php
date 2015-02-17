@@ -20,12 +20,11 @@ class Frame {
 
     }
 
-    public function setBody(\Atom\Protocol\Flag\FlagCollectionInterface $flags) {
-        
+    public function setBody($body) {
+        $this->body = $body;
     }
 
 	public function __set($name, $value) {
-		
 		if(!isset($this->{$name})) {
 			throw new \Exception('Invalid Property');
 		}
@@ -46,7 +45,8 @@ class Frame {
     // }
 
     private function getFixedHeader() {
-    	return $this->command;
+    	return $this->command . '0000';
+
     }
 
     private function getVariableHeader() {
@@ -67,7 +67,7 @@ class Frame {
     }
 
     private function prepFrame() {
-    	return $this->getFixedHeader().$this->getVariableHeader().$this->body;
+    	return bindec($this->getFixedHeader().$this->getVariableHeader()).$this->body;
     }
 
 	public function __toString() {

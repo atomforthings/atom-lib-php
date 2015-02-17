@@ -9,9 +9,7 @@ try {
 	$atom = new \Atom\Atom('127.0.0.1', 4347, false);
 	
 	$atom->on('connected.established', function ($data) {
-		$command = new \Atom\Protocol\Command\Connect();
-		$c = new \Atom\Protocol\Flag\FlagCollection(array(new \Atom\Protocol\Flag\Confirm));
-		// $atom->send();
+		
 	});
 
 	$atom->on('error', function ($data) {

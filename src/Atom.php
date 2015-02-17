@@ -13,7 +13,7 @@ class Atom extends EventEmitter {
 	private $creds = array();
 	private $loop = null;
 
-	function __construct($host = '192.168.1.1', $port = '4347', $ssl = false) {
+	function __construct($host = '127.0.0.1', $port = '4347', $ssl = false) {
 		$this->loop = \React\EventLoop\Factory::create();
 		$this->creds['host'] = $host;
 		$this->creds['port'] = $port;
@@ -34,16 +34,20 @@ class Atom extends EventEmitter {
 		$connector->create($this->creds['host'], $this->creds['port'])->then(function (\React\Stream\Stream $stream) use ($self) {
 
 			
-			/* connection established, send connect frame */
-
-			$connectCommand = new \Atom\Protocol\Command\Connect;
-			// $flags = new \Atom\Protocol\Flag\FlagCollection(new \Atom\Protocol\Flag\Confirm);
-			// $connectCommand->setFlags($flags);
-
 			$self->emit('connected.established', array($stream));
 
+			/* connection established, send connect frame */
+			$connectCommand = new \Atom\Protocol\Command\Connect;
+			$data = "";
+
+			$frame = new \Atom\Protocol\Frame($connectCommand);
+			$frame->setBody($data);
+			echo $frame;
+
+			$stream->write($frame);
+
 			$stream->on('data', function($data) use ($stream) {
-				echo "data";
+				echo $data;
 			});
 
 			$stream->on('error', function($data) use ($stream) {
@@ -61,7 +65,7 @@ class Atom extends EventEmitter {
 		}, function($e) use ($self) {
 
 			$self->emit('error', array('message' => $e->getMessage()));
-			throw new \Exception($e);
+			// throw new \Exception($e->getMessage(), $e->getCode());
 
 		}, function($e) {
 
@@ -73,4 +77,5 @@ class Atom extends EventEmitter {
 		$this->loop->run();
 
 	}
+
 }
