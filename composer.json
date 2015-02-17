@@ -1,7 +1,7 @@
 {
     "name": "atomforthings/atom-lib-php",
     "description": "PHP library for Atom for Things Protocol",
-    "keywords": ["atom", "atomforthings", "atom for things"],
+    "keywords": ["atom", "atomforthings", "atom for things", "iot", "internet of things"],
     "license": "MIT",
     "authors": [
         {
