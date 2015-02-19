@@ -13,13 +13,12 @@ class Frame {
 	
 	function __construct(\Atom\Protocol\Command\CommandInterface $command, $options = array()) {
 		$this->command = $command;
-		// $this->validate();
 	}
 
     public function setFlags(\Atom\Protocol\Flag\FlagCollectionInterface $flags) {
 
     }
-
+    
     public function setBody($body) {
         $this->body = $body;
     }
@@ -32,17 +31,9 @@ class Frame {
         $this->$name = $value;
     }
 
-    // private function validate() {
-    // 	echo $this->command->getCommand() . PHP_EOL;
-    // 	switch($this->command->getCommand()) {
-    // 		case Command::CONNECT:
-    				
-    // 			break;
-    // 		case Command::DISCONNECT:
-    // 			echo "thhere";
-    // 			break;
-    // 	}
-    // }
+    private function isValid() {
+    	return true;
+    }
 
     private function getFixedHeader() {
     	return $this->command . '0000';

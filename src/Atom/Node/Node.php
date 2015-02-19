@@ -2,10 +2,7 @@
 
 namespace Atom\Node;
 
-class Node implements NodeInterface {
+class Node extends AbstractNode {
 
-	function __construct() {
-
-	}
 	
 }

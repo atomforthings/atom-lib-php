@@ -19,5 +19,4 @@ class FlagCollection implements FlagCollectionInterface {
 	public function add(\Atom\Protocol\Flag\FlagInterface $flag) {
 		array_push($this->flags, $flag);
 	}
-
 }

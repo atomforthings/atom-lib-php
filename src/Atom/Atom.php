@@ -13,12 +13,9 @@ class Atom extends EventEmitter {
 	private $creds = array();
 	private $loop = null;
 
-	function __construct($host = '127.0.0.1', $port = '4347', $ssl = false) {
+	function __construct(\Atom\Node\NodeInterface $node) {
 		$this->loop = \React\EventLoop\Factory::create();
-		$this->creds['host'] = $host;
-		$this->creds['port'] = $port;
-		$this->creds['ssl'] = $ssl;
-
+		$this->node = $node;
 		$this->emit('initialized', array());
 	}
 
@@ -31,8 +28,7 @@ class Atom extends EventEmitter {
 
 		$connector = new \React\SocketClient\Connector($this->loop, $dns);
 
-		$connector->create($this->creds['host'], $this->creds['port'])->then(function (\React\Stream\Stream $stream) use ($self) {
-
+		$connector->create($this->node->host, $this->node->port)->then(function (\React\Stream\Stream $stream) use ($self) {
 			
 			$self->emit('connected.established', array($stream));
 

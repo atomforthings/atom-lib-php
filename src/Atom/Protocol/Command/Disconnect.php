@@ -2,9 +2,9 @@
 
 namespace Atom\Protocol\Command;
 
-class Connect extends AbstractCommand  {
+class Disconnect extends AbstractCommand  {
 
-	const VALUE = 0b0000;
+	const VALUE = 0b0001;
 
 	function __construct() {
 		parent::__construct();

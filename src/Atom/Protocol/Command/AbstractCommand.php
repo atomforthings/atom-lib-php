@@ -4,7 +4,6 @@ namespace Atom\Protocol\Command;
 
 abstract class AbstractCommand implements CommandInterface {
 
-
 	const VALUE = null;
 
 	function __construct() {
