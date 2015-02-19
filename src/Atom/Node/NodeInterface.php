@@ -10,7 +10,7 @@ interface NodeInterface {
     const STATUS_DISCONNECTING = 3;
     const STATUS_DISCONNECTED = 4;
 
-    function __construct($protocol, $host, $port, $ssl);
+    function __construct(\React\EventLoop\LoopInterface $loop, $protocol, $host, $port, $ssl);
     public function getStatus();
     public function setStatus($status);
 

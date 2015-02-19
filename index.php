@@ -3,22 +3,14 @@
 date_default_timezone_set('UTC');
 
 include "vendor/autoload.php";
+$loop = \React\EventLoop\Factory::create();
+$node = new \Atom\Node\Node($loop, 'tcp://', '127.0.0.1', 4347, false);
 
-
-// $storage = new \Atom\Topic\TopicContainer();
-// $foo = (object)['foo' => 'bar'];
-// $storage->attach($foo, ['room' => 'bar']);
-
-// foreach ($storage as $value) {
-//     $obj = $storage->current(); // current object
-//     $assoc_key  = $storage->getInfo(); // return, if exists, associated with cur. obj. data; else NULL
-
-//     // var_dump($obj);
-//     // var_dump($assoc_key);
-// }
-
-
-$node = new \Atom\Node\Node('tcp://', '127.0.0.1', 4347, false);
+$node->on('connection.established', function($data) {
+	echo "lalala";
+});
+$loop->run();
+die();
 
 $topics = new \Atom\Protocol\Topic\TopicContainer();
 $topics->attach(new \Atom\Protocol\Topic\Topic('sensors/temperature'));

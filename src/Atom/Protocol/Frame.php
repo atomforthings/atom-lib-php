@@ -37,7 +37,6 @@ class Frame {
 
     private function getFixedHeader() {
     	return $this->command . '0000';
-
     }
 
     private function getVariableHeader() {

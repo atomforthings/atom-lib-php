@@ -22,4 +22,16 @@ class TopicContainer {
 		return $this->topics;
 	}
 
+	public function publish($topic, $data) {
+		
+	}
+
+	public function __get($topic = null) {
+		if(isset($this->topics[$topic])) {
+			return $this->topics[$topic];
+		}
+
+		throw new \Exception("Topic Not Found");
+	}
+	
 }
