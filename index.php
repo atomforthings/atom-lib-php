@@ -4,11 +4,12 @@ date_default_timezone_set('UTC');
 
 include "vendor/autoload.php";
 $loop = \React\EventLoop\Factory::create();
-$node = new \Atom\Node\Node($loop, 'tcp://', '127.0.0.1', 4347, false);
 
-$node->on('connection.established', function($data) {
-	echo "lalala";
+$node = new \Atom\Node\Node($loop, 'tcp://', '127.0.0.1', 4347, false);
+$node->on('data', function($data, $stream) {
+	echo $data;
 });
+
 $loop->run();
 die();
 

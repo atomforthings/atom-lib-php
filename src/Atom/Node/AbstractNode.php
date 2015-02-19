@@ -35,12 +35,29 @@ abstract class AbstractNode extends EventEmitter implements NodeInterface, NodeS
         
         $this->connection = new \React\Stream\Stream($fd, $this->loop);
 
-        $this->emit('connection.established', array("Asd"));
-        try {
-            $this->connection->write("hahaha");
-        } catch(Exception $e) {
-            echo $e->getMessage();
-        }
+        $this->emit('connection.established', array($this));
+        
+        $this->connection->write("hahaha");
+        
+        $this->connection->on('data', function($data) {
+            $this->emit('data', array($data, $this));
+        });
+
+        // $this->connection->on('drain', function() {
+        //     $this->emit('drain');
+        // });
+
+        // $this->connection->on('error', function($error) {
+        //     $this->emit('error', array('data' => $data));
+        // });
+
+        // $this->connection->on('close', function($data) {
+        //     $this->emit('close');
+        // });
+
+        // $this->connection->on('pipe', function($data) {
+        //     $this->emit('pipe', array('data' => $data));
+        // });
         
     }
 
