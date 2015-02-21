@@ -13,7 +13,7 @@ $node = new Node('tcp://', '192.168.1.2', 4347, false);
 $atom = new Atom($node, array());
 
 $atom->on('connection', function($node) {
-
+	echo "New Conneciton: " . $node->getRemoteAddress() . PHP_EOL;
 });
 
 $atom->run();
