@@ -2,20 +2,12 @@
 
 namespace Atom\Node;
 
-interface NodeInterface {
-	
-	const STATUS_NEW = 0;
-    const STATUS_CONNECTING = 1;
-    const STATUS_CONNECTED = 2;
-    const STATUS_DISCONNECTING = 3;
-    const STATUS_DISCONNECTED = 4;
+use Evenement\EventEmitterInterface;
 
-    function __construct($protocol, $host, $port, $ssl);
-    public function send(\Atom\Protocol\Frame $frame);
-    public function getStatus();
-    public function setStatus($status);
-
-    public function __get($key);
-    public function __set($key, $value);
-
+/** @event connection */
+interface NodeInterface extends EventEmitterInterface
+{
+    public function listen();
+    public function getPort();
+    public function shutdown();
 }
