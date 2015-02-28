@@ -2,10 +2,6 @@
 
 namespace Atom\Node;
 
-class Collection extends AbstractCollection {
-
-	function display() {
-
-	}
-
+class Collection extends \SplObjectStorage {
+	
 }

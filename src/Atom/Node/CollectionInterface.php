@@ -4,6 +4,6 @@ namespace Atom\Node;
 
 interface CollectionInterface {
 
-	function display();
+	// function display();
 	
 }
