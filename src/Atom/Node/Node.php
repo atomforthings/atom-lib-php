@@ -15,7 +15,7 @@ class Node extends EventEmitter implements NodeInterface {
     	$this->loop = $loop;
 
     	$_this = $this;
-    	$this->loop->addTimer('5.0', function() use ($_this){
+    	$this->loop->addTimer('5.0', function() use ($_this) {
     		if($_this->getStatus() == constant("self::STATUS_NEW")) {
     			$_this->emit('timedout', array($_this));
     			echo "timedout";

@@ -10,6 +10,8 @@ class Atom extends EventEmitter {
     private $loop;
     private $peers;
 
+    private $topics;
+
     function __construct($protocol = 'tcp://', $host = '127.0.0.1', $port = 4347, $ssl = false, array $options = array()) {
         $this->loop = \React\EventLoop\Factory::create();
         $this->protocol = $protocol;
@@ -24,6 +26,8 @@ class Atom extends EventEmitter {
         $this->address = $this->protocol.$this->host . ":" . $this->port;
 
         $this->peers = new \Atom\Node\Collection();
+        $this->topics = new \Atom\Protocol\Topic\TopicContainer($this->loop);
+
     }
 
     public function listen() {
@@ -57,9 +61,6 @@ class Atom extends EventEmitter {
         $node = $this->createConnection($socket);
 
         $this->peers->attach($node, $this->peers->getHash($node));
-
-
-        // var_dump($this->peers->key($this->peers->getHash($node));
 
         $this->emit('connection', array($node));
     }
@@ -104,8 +105,12 @@ class Atom extends EventEmitter {
     }
 
 
-    public function publish(\React\Protocol\Topic\TopicInterface $topic) {
+    public function publish($time, $topic, $data) {
+        $this->topics->publish($time, $topic, $data);
+    }
 
+    public function addTopic(\Atom\Protocol\Topic\TopicInterface $topic) {
+        $this->topics->attach($topic);
     }
 
     public function connect($address, $port) {

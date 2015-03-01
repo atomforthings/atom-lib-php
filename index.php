@@ -47,6 +47,10 @@ $atom->on('connection', function($node) {
 	echo "New Conneciton: " . $node->getRemoteAddress() . PHP_EOL;
 });
 
+$atom->addTopic(new \Atom\Protocol\Topic\Topic('sensors/temperature'));
+
+$atom->publish('1.0', 'sensors/temperature', '10');
+
 // $atom->connect('192.168.1.4', 4347);
 
 $atom->run();

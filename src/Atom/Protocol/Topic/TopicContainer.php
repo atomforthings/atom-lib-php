@@ -5,6 +5,10 @@ namespace Atom\Protocol\Topic;
 class TopicContainer {
 
 	private $topics;
+
+	function __construct($loop) {
+		$this->loop = $loop;
+	}
 	
 	public function attach(\Atom\Protocol\Topic\TopicInterface $topic) {
 		if(!isset($this->topics[$topic->name])) {
@@ -22,8 +26,11 @@ class TopicContainer {
 		return $this->topics;
 	}
 
-	public function publish($topic, $data) {
-		
+	public function publish($time, $topic, $data) {
+		$this->loop->addPeriodicTimer($time, function() use($topic, $data) {
+			echo $topic . " : " . $data . PHP_EOL;
+		});
+
 	}
 
 	public function __get($topic = null) {
