@@ -9,7 +9,7 @@ class Atom extends EventEmitter {
 
     private $loop;
     private $peers;
-
+    private $subscriptions;
     private $topics;
 
     function __construct($protocol = 'tcp://', $host = '127.0.0.1', $port = 4347, $ssl = false, array $options = array()) {
@@ -25,8 +25,9 @@ class Atom extends EventEmitter {
 
         $this->address = $this->protocol.$this->host . ":" . $this->port;
 
-        $this->peers = new \Atom\Node\Collection();
+        $this->peers = new \Atom\Node\Container($this->loop);
         $this->topics = new \Atom\Protocol\Topic\TopicContainer($this->loop);
+        $this->subscriptions = array();
 
     }
 
@@ -60,11 +61,16 @@ class Atom extends EventEmitter {
 
         $node = $this->createConnection($socket);
 
-        $this->peers->attach($node, $this->peers->getHash($node));
+        $this->peers->attach($node);
+
+        /* hard subscribe to topic */
+        // array_push($this->subscriptions, array('sensors/temperature' => $node->getId()));
+        $this->subscriptions['sensors/temperature'] = array();
+        array_push($this->subscriptions['sensors/temperature'], $node->getId());
 
         /* setup events for this node */
-        $node->on('data', function($data, $this) {
-            
+        $node->on('data', function($data, $node) {
+            echo "data from: " . $node->getRemoteAddress() . " : " . $data;
         });
         
         $this->emit('connection', array($node));
@@ -111,17 +117,28 @@ class Atom extends EventEmitter {
 
 
     public function publish($time, $topic, $data) {
+        
         if(is_callable($data)) {
             $data =  call_user_func($data);
         }
+
         $this->topics->publish($time, $topic, $data);
     }
 
     public function addTopic(\Atom\Protocol\Topic\TopicInterface $topic) {
         $this->topics->attach($topic);
 
-        $topic->on('published', function($data, $topic) {
-            // echo $topic->name . " : " . $data . PHP_EOL;
+        $that = $this;
+        
+        $topic->on('published', function($data, $topic) use($that) {
+            // print_r($this->subscriptions);
+            // print_r($that->subscriptions[$topic->name]);
+            if(isset($that->subscriptions[$topic->name])) {
+                foreach($that->subscriptions[$topic->name] as $id) {
+                    $this->peers->send($data, $id);
+                }
+                echo $topic->name . " : " . $data . PHP_EOL;
+            }
         });
     }
 

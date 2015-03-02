@@ -15,7 +15,8 @@
         "react/dns": "0.4.*",
         "react/socket-client": "0.4.*",
         "hoa/socket": "0.14.12.10",
-        "react/stream": "0.4.*"
+        "react/stream": "0.4.*",
+        "rhumsaa/uuid": "~2.8"
     },
     "autoload": {
         "psr-4": { "Atom\\": "src/Atom" }

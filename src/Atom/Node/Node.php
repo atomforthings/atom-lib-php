@@ -4,14 +4,20 @@ namespace Atom\Node;
 
 use Evenement\EventEmitter;
 
+use Rhumsaa\Uuid\Uuid;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+
+
 class Node extends EventEmitter implements NodeInterface {
 
     const STATUS_NEW = 0x01;
 
 	private $_connection;
+	private $_id;
+	private $_status;
     
     public function __construct($loop) {
-    	$this->status = self::STATUS_NEW;
+    	$this->_status = self::STATUS_NEW;
     	$this->loop = $loop;
 
     	$that = $this;
@@ -21,6 +27,8 @@ class Node extends EventEmitter implements NodeInterface {
     			// echo "timedout";
     		}
     	});
+
+    	$this->_id = Uuid::uuid4()->toString();
 
     }
 
@@ -41,6 +49,10 @@ class Node extends EventEmitter implements NodeInterface {
 
     }
 
+    public function write($data) {
+    	$this->_connection->write($data);
+    }
+
 	public function setLoop( $loop ) {
     	$this->loop = $loop;
     }
@@ -50,8 +62,13 @@ class Node extends EventEmitter implements NodeInterface {
     }
 
     public function getStatus() {
-    	return $this->status;
+    	return $this->_status;
     }
+
+    public function getId() {
+    	return $this->_id;
+    }
+
 }
 
 // class Node extends EventEmitter implements NodeInterface {
