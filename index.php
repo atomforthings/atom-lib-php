@@ -49,8 +49,12 @@ $atom->on('connection', function($node) {
 
 $atom->addTopic(new \Atom\Protocol\Topic\Topic('sensors/temperature'));
 
-$atom->publish('1.0', 'sensors/temperature', function(){
-	return "10";
+$atom->publish('1.0', 'sensors/temperature', "10");
+
+$atom->addTopic(new \Atom\Protocol\Topic\Topic('sensors/altitude'));
+
+$atom->publish('0.5', 'sensors/altitude', function() {
+	return "100";
 });
 
 // $atom->connect('192.168.1.4', 4347);

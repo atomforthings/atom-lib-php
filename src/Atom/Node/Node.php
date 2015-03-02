@@ -29,7 +29,7 @@ class Node extends EventEmitter implements NodeInterface {
     	$that = $this;
 
     	$this->_connection->on('data', function($data) use ($that) {
-    		$that->emit('data', array($data, $that->_connection));
+    		$that->emit('data', array($data, $that));
     	});
 
     }

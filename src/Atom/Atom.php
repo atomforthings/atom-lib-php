@@ -62,6 +62,11 @@ class Atom extends EventEmitter {
 
         $this->peers->attach($node, $this->peers->getHash($node));
 
+        /* setup events for this node */
+        $node->on('data', function($data, $this) {
+            
+        });
+        
         $this->emit('connection', array($node));
     }
 
@@ -80,7 +85,7 @@ class Atom extends EventEmitter {
     public function createConnection($socket) {
         $node = new \Atom\Node\Node($this->loop);
         $node->setConnection(new Connection($socket, $this->loop));
-        // $node->setLoop($this->loop);
+
         return $node;
     }
 
@@ -105,8 +110,11 @@ class Atom extends EventEmitter {
     }
 
 
-    public function publish($time, $topic, callable $data) {
-        $this->topics->publish($time, $topic, call_user_func($data));
+    public function publish($time, $topic, $data) {
+        if(is_callable($data)) {
+            $data =  call_user_func($data);
+        }
+        $this->topics->publish($time, $topic, $data);
     }
 
     public function addTopic(\Atom\Protocol\Topic\TopicInterface $topic) {

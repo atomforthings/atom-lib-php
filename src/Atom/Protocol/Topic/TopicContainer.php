@@ -2,7 +2,9 @@
 
 namespace Atom\Protocol\Topic;
 
-class TopicContainer {
+use Evenement\EventEmitter;
+
+class TopicContainer extends EventEmitter {
 
 	private $topics;
 
@@ -16,6 +18,12 @@ class TopicContainer {
 		} else {
 			throw new \Exception("Topic Already Exists");
 		}
+
+		$that = $this;
+		$topic->on('published', function($data, $topic) use($that) {
+			echo $topic->name . " : " . $data . PHP_EOL;
+			$that->emit('published', array($data, $topic));
+		});
 	}
 
 	public function exists($topic = null) {
@@ -27,8 +35,11 @@ class TopicContainer {
 	}
 
 	public function publish($time, $topic, $data) {
-		$this->loop->addPeriodicTimer($time, function() use($topic, $data) {
-			echo $topic . " : " . $data . PHP_EOL;
+
+		$that = $this;
+
+		$this->loop->addPeriodicTimer($time, function() use($topic, $data, $that) {
+			$that->topics[$topic]->publish($data);
 		});
 
 	}
@@ -38,7 +49,7 @@ class TopicContainer {
 			return $this->topics[$topic];
 		}
 
-		throw new \Exception("Topic Not Found");
+		throw new \Exception("Topic Not Found: $topic");
 	}
 	
 }
