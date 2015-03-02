@@ -14,17 +14,31 @@ class Node extends EventEmitter implements NodeInterface {
     	$this->status = self::STATUS_NEW;
     	$this->loop = $loop;
 
-    	$_this = $this;
-    	$this->loop->addTimer('5.0', function() use ($_this) {
-    		if($_this->getStatus() == constant("self::STATUS_NEW")) {
-    			$_this->emit('timedout', array($_this));
-    			echo "timedout";
+    	$that = $this;
+    	$this->loop->addTimer('5.0', function() use ($that) {
+    		if($that->getStatus() == constant("self::STATUS_NEW")) {
+    			$that->emit('timedout', array($that));
+    			// echo "timedout";
     		}
     	});
+
+    }
+
+    private function setUpEvents() {
+    	
+    	$that = $this;
+
+    	$this->_connection->on('data', function($data) use ($that) {
+    		$that->emit('data', array($data, $that->_connection));
+    	});
+
     }
 
     public function setConnection( $connection ) {
     	$this->_connection = $connection;
+
+    	$this->setUpEvents();
+
     }
 
 	public function setLoop( $loop ) {

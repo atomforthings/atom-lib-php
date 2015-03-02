@@ -105,8 +105,8 @@ class Atom extends EventEmitter {
     }
 
 
-    public function publish($time, $topic, $data) {
-        $this->topics->publish($time, $topic, $data);
+    public function publish($time, $topic, callable $data) {
+        $this->topics->publish($time, $topic, call_user_func($data));
     }
 
     public function addTopic(\Atom\Protocol\Topic\TopicInterface $topic) {
