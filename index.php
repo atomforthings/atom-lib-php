@@ -40,7 +40,7 @@ include "vendor/autoload.php";
 
 use Atom\Atom;
 
-$atom = new Atom('tcp://', '192.168.1.4', 4347, false, array());
+$atom = new Atom('tcp://', '192.168.1.5', 4347, false, array());
 
 $atom->on('connection', function($node) {
 	// var_dump($node);

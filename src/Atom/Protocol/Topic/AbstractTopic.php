@@ -2,9 +2,25 @@
 
 namespace Atom\Protocol\Topic;
 
-abstract class AbstractTopic implements TopicInterface {
-	
-	private $name;
+use Evenement\EventEmitter;
 
-	abstract public function __get($name);
+abstract class AbstractTopic extends EventEmitter implements TopicInterface {
+
+	private $name;
+	private $lastValue;
+
+	function __construct($name) {
+		$this->name = $name;
+	}
+
+	public function __get($name) {
+		return $this->$name;
+	}
+
+	public function publish($value) {
+		$this->lastValue = $value;
+		$that = $this;
+		$this->emit('published', array($that->lastValue, $that));
+	}
+	
 }
