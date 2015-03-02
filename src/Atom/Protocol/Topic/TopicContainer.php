@@ -21,7 +21,7 @@ class TopicContainer extends EventEmitter {
 
 		$that = $this;
 		$topic->on('published', function($data, $topic) use($that) {
-			echo $topic->name . " : " . $data . PHP_EOL;
+			// echo $topic->name . " : " . $data . PHP_EOL;
 			$that->emit('published', array($data, $topic));
 		});
 	}

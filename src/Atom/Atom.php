@@ -119,6 +119,10 @@ class Atom extends EventEmitter {
 
     public function addTopic(\Atom\Protocol\Topic\TopicInterface $topic) {
         $this->topics->attach($topic);
+
+        $topic->on('published', function($data, $topic) {
+            // echo $topic->name . " : " . $data . PHP_EOL;
+        });
     }
 
     public function connect($address, $port) {
