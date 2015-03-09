@@ -69,8 +69,21 @@ class Atom extends EventEmitter {
         array_push($this->subscriptions['sensors/temperature'], $node->getId());
 
         /* setup events for this node */
-        $node->on('data', function($data, $node) {
-            echo "data from: " . $node->getRemoteAddress() . " : " . $data;
+        // $node->on('data', function($data, $node) {
+        //     echo "data from: " . $node->getId() . " : " . $data;
+        // });
+        
+        $that = $this;
+        $node->on('data', function($data, $node) use($that) {
+            echo "data from: " . $node->getId() . " : " . $data;
+
+            // unset($this->subscriptions['sensors/temperature'][array_keys()]
+            // 
+            
+            $keys = array_keys($this->subscriptions['sensors/temperature'], $node->getId());
+            // print_r($keys);
+            unset($this->subscriptions['sensors/temperature'][$keys[0]]);
+            // die();
         });
         
         $this->emit('connection', array($node));

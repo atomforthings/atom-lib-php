@@ -36,11 +36,18 @@ include "vendor/autoload.php";
 
 
 // $atom->run();
+$loop = \React\EventLoop\Factory::create();
 
+$s = new Atom\PubSub\Subscriptions($loop);
+$s->addTopic(new \Atom\Protocol\Topic\Topic('sensors/temperature'));
+$s->subscribe('sensors/temperature', new \Atom\Node\Node($loop));
+$s->publish('1.0', 'sensors/temperature', "10");
+$loop->run();
+die();
 
 use Atom\Atom;
 
-$atom = new Atom('tcp://', '192.168.1.7', 4347, false, array());
+$atom = new Atom('tcp://', '127.0.0.1', 4347, false, array());
 
 $atom->on('connection', function($node) {
 	// var_dump($node);

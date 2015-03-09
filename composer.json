@@ -14,11 +14,15 @@
         "react/socket": "0.4.*",
         "react/dns": "0.4.*",
         "react/socket-client": "0.4.*",
-        "hoa/socket": "0.14.12.10",
         "react/stream": "0.4.*",
-        "rhumsaa/uuid": "~2.8"
+        "rhumsaa/uuid": "~2.8",
+        "monolog/monolog": "~1.12",
+        "phpunit/phpunit": "~4.5"
     },
     "autoload": {
         "psr-4": { "Atom\\": "src/Atom" }
-    }
+    },
+    "require-dev": {
+    },
+    "minimum-stability": "stable"
 }
