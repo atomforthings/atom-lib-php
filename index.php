@@ -5,6 +5,11 @@ date_default_timezone_set('UTC');
 include "vendor/autoload.php";
 
 
+$frame = (new Atom\Protocol\Frame)->withData('s');
+print_r($frame);
+die();
+
+echo "ASD";
 // class Atom extends Hoa\Socket\Connection\Handler {
 
 //     protected function _run ( Hoa\Socket\Node $node ) {

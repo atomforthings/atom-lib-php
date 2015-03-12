@@ -17,12 +17,13 @@
         "react/stream": "0.4.*",
         "rhumsaa/uuid": "~2.8",
         "monolog/monolog": "~1.12",
-        "phpunit/phpunit": "~4.5"
+        "atomforthings/protocol-lib-php": "0.0.1-alpha.1"
     },
     "autoload": {
         "psr-4": { "Atom\\": "src/Atom" }
     },
     "require-dev": {
+        "phpunit/phpunit": "~4.5"
     },
     "minimum-stability": "stable"
 }
